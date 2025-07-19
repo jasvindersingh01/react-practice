@@ -1,4 +1,4 @@
-function TodoItem({ item, index, deleteTodos, toggleCompleted}) {
+function TodoItem({ item, index, deleteTodos, taskCompleted, editTodos}) {
     return (
                      <li key={index} style={{
                         textDecoration: item.completed ? "line-through" : "none",
@@ -9,14 +9,15 @@ function TodoItem({ item, index, deleteTodos, toggleCompleted}) {
                         border: "2px solid white",
                         padding: "0.8rem 1rem",
                         borderRadius: "8px",
-                        width: "500px",
+                        width: "600px",
                         backgroundColor: "#222",
                         color: "white"
                     }}>
                         {item.text}
                         <div>
                             <button onClick={() => deleteTodos(index)} style={{ cursor: "pointer" }}>❌</button>
-                            <button onClick={() => toggleCompleted(index)} style={{ cursor: "pointer", marginLeft: "15px" }}>✅</button>
+                            <button onClick={() => taskCompleted(index)} style={{ cursor: "pointer", marginLeft: "10px" }}>✅</button>
+                            <button onClick={() => editTodos(index)} style={{cursor:"pointer", marginLeft:"10px"}}>✏️</button>
                         </div>
                     </li>
     )

@@ -6,6 +6,8 @@ function TodoList() {
     const [task, setTask] = useState("");
     const [todos, setTodos] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [isEditing, setIsEditing] = useState(false);
+    const [editIndex, setEditIndex] = useState(null);
 
     useEffect(() => {
         const stored = JSON.parse(localStorage.getItem("todos") || "[]");
@@ -18,7 +20,17 @@ function TodoList() {
 
     const addTodos = (e) => {
         e.preventDefault();
-        if (task.trim() !== "") {
+        if (task.trim() === "") return;
+
+        if (isEditing) {
+            todos[editIndex].text = task;
+            setTodos([...todos]);
+            setIsEditing(false);
+            setEditIndex(null);
+            setTask("");
+        }
+        else
+        {
             setTodos([...todos, { text: task, completed: false }]);
             setTask("");
         }
@@ -31,13 +43,18 @@ function TodoList() {
         setTodos(update)
     }
 
-    const toggleCompleted = (index) => {
+    const taskCompleted = (index) => {
         const done = todos.map((item, i) =>
             i === index
                 ? { ...item, completed: !item.completed }
                 : item
         );
         setTodos(done)
+    }
+    const editTodos = (index) => {
+        setTask(todos[index].text);
+        setIsEditing(true);
+        setEditIndex(index);
     }
 
     const filteredTodos = todos.filter((item) =>
@@ -53,6 +70,7 @@ function TodoList() {
                 addTodos={addTodos}
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
+                isEditing={isEditing}
             />
 
             <ul style={{
@@ -64,7 +82,7 @@ function TodoList() {
             }}>
                 {
                     filteredTodos.length === 0 && searchTerm.trim() !== "" ? (
-                        <p>No Todos Found..☹</p>
+                        <p>No Todos Found..</p>
                     ) : (
                         filteredTodos.map((item, index) => (
                             <TodoItem
@@ -72,7 +90,8 @@ function TodoList() {
                                 item={item}
                                 index={index}
                                 deleteTodos={deleteTodos}
-                                toggleCompleted={toggleCompleted}
+                                taskCompleted={taskCompleted}
+                                editTodos={editTodos}
                             />
                         )
                         ))}

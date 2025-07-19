@@ -1,4 +1,4 @@
-function TodoForm({ task, setTask, addTodos, searchTerm, setSearchTerm }) {
+function TodoForm({ task, setTask, addTodos, searchTerm, setSearchTerm, isEditing, setIsEditing, setEditIndex }) {
     return (
         <div>
 
@@ -20,7 +20,7 @@ function TodoForm({ task, setTask, addTodos, searchTerm, setSearchTerm }) {
                         border: "1px solid #ccc",
                     }}
                 />
-                <button style={{ fontSize: "1rem", margin: ".5rem", padding: "1rem 2rem", cursor: "pointer" }} type="submit">Add</button>
+                <button style={{ fontSize: "1rem", margin: ".5rem", padding: "1rem 2rem", cursor: "pointer" }} type="submit">{isEditing ? "Update" : "Add"}</button>
 
             </form>
             <input
